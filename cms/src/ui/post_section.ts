@@ -1,4 +1,5 @@
 import { StorageService } from '../service/storage_service';
+import { UploadService } from '../service/upload_service';
 import { OnInit } from '../interface/on_init';
 import { Post } from '../model/post';
 import { PostMeta } from '../model/post_meta';
@@ -61,6 +62,10 @@ export class PostSection implements OnInit {
         <br />
         <textarea name="post_content"></textarea>
         <br />
+        Image
+        <br />
+        <input type="file" name="post_photo" />
+        <br />
         <p><input type="submit" value="submit" /></p>
       </form>
       <table>
@@ -103,17 +108,21 @@ export class PostSection implements OnInit {
   }
 
   private onSubmit(e: SubmitEvent): boolean {
+    e.preventDefault();
     if (e && e.target) {
       // @ts-ignore
       const $content: HTMLInputElement | null = e.target.post_content;
       // @ts-ignore
       const $select: HTMLInputElement | null = e.target.post_author;
-      StorageService.loadAuthors()
+      // @ts-ignore
+      const $file: HTMLInputElement | null = e.target.post_photo;
+      const hasFile: boolean = $file.files.length > 0;
+      const fileId: string = (new Date()).getTime();
+      (hasFile ? UploadService.uploadImage($file.files[0], fileId+"_"+$file.files[0].name) : Promise.resolve(false))
+        .then(() => hasFile ? StorageService.addImage(fileId+"_"+$file.files[0].name) : Promise.resolve(false))
+        .then(() => StorageService.loadAuthors())
         .then(authorMetas => StorageService.readAuthor(authorMetas.find(a => a.id === $select.value)))
-        .then(author => {
-          this.addPost(new Post(new Date(), author, $content.value));
-        });
-      e.preventDefault();
+        .then(author => this.addPost(new Post(new Date(), author, $content.value, hasFile ? fileId+"_"+$file.files[0].name : null)));
     }
     return false;
   }
@@ -136,7 +145,6 @@ export class PostSection implements OnInit {
       .then(post => {
         // @ts-ignore
         const $dialog: HTMLElement | null = this.elm.querySelector('dialog#post_view');
-        console.log(post);
         $dialog.querySelector('div').innerHTML = post.toJSON();
         $dialog.showModal();
       });

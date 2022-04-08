@@ -8,6 +8,7 @@
     "serve": "npx @11ty/eleventy --input=./src --serve"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^1.0.0"
+    "@11ty/eleventy": "^1.0.0",
+    "@11ty/eleventy-img": "^2.0.0"
   }
 }
