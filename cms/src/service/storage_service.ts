@@ -88,6 +88,17 @@ class _StorageService {
       .then(res => author);
   }
 
+  public addImage(filename: string): Promise<string> {
+    return this.loadPl()
+      .then(pl => { 
+        pl.photos.push(filename);
+        return pl;
+      })
+      .then(pl => this.savePl(pl))
+      .then(res => filename);
+  }
+
+
   public deleteAuthor(authorMeta: AuthorMeta): Promise<AuthorMeta> {
     const id: string = authorMeta.id;
     return this.loadPl()

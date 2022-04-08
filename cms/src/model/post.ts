@@ -5,12 +5,15 @@ export class Post {
   published: Date;
   author: Author;
   content: string;
+  photo: string | null = null;
 
-  constructor(published: Date, author: Author, content: string) {
+  constructor(published: Date, author: Author, content: string, photo: string | null) {
     this.published = published;
     this.author = author;
     this.content = content;
+    this.photo = photo;
   }
+
 
   public toJSON(): string {
     return JSON.stringify(this.toObject());
@@ -25,7 +28,8 @@ export class Post {
           this.published.toISOString()
         ],
         author: [ this.author.toObject() ],
-        content: [ this.content ]
+        content: [ this.content ],
+        photo: this.photo ? [ this.photo ] : []
       }
     };
   }
@@ -39,7 +43,8 @@ export class Post {
     return new Post(
       new Date(obj.properties.published),
       Author.fromObject(obj.properties.author[0]),
-      obj.properties.content[0]
+      obj.properties.content[0],
+      obj.properties.photo.length > 0 ? obj.properties.photo[0] : null
     );
   }
 }
