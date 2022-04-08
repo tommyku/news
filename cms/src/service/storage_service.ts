@@ -4,15 +4,19 @@ import { Post } from '../model/post';
 import { PostMeta } from '../model/post_meta';
 import { Pl } from '../model/pl';
 
+const baseUrl = process.env.NODE_ENV === 'development'
+  ? 'http://localhost:8010/proxy'
+  : '';
+
 class _StorageService {
   private loadPl(): Promise<Pl> {
-    return fetch(`http://localhost:8010/proxy/pl.json`)
+    return fetch(`${baseUrl}/pl.json`)
       .then(res => res.json())
       .then(pl => Pl.fromObject(pl));
   }
 
   private savePl(pl: Pl): Promise<Pl> {
-    return fetch(`http://localhost:8010/proxy/pl.json`, {
+    return fetch(`${baseUrl}/pl.json`, {
       method: 'PUT',
       body: pl.toJSON()
     })
@@ -20,7 +24,7 @@ class _StorageService {
   }
 
   public readPost(postMeta: PostMeta): Promise<Post> {
-    return fetch(`http://localhost:8010/proxy/post/${postMeta.id}.json`)
+    return fetch(`${baseUrl}/post/${postMeta.id}.json`)
       .then(res => res.json())
       .then(json => Post.fromObject(json));
   }
@@ -39,7 +43,7 @@ class _StorageService {
         return pl;
       })
       .then(pl => this.savePl(pl))
-      .then(res => fetch(`http://localhost:8010/proxy/post/${id}.json`, {
+      .then(res => fetch(`${baseUrl}/post/${id}.json`, {
         method: 'PUT',
         body: post.toJSON()
       }))
@@ -54,7 +58,7 @@ class _StorageService {
         return pl;
       })
       .then(pl => this.savePl(pl))
-      .then(res => fetch(`http://localhost:8010/proxy/post/${postMeta.id}.json`, {
+      .then(res => fetch(`${baseUrl}/post/${postMeta.id}.json`, {
         method: 'DELETE'
       }))
       .then(res => postMeta);
@@ -62,7 +66,7 @@ class _StorageService {
 
 
   public readAuthor(authorMeta: AuthorMeta): Promise<Author> {
-    return fetch(`http://localhost:8010/proxy/author/${authorMeta.id}.json`)
+    return fetch(`${baseUrl}/author/${authorMeta.id}.json`)
       .then(res => res.json())
       .then(json => Author.fromObject(json));
   }
@@ -81,7 +85,7 @@ class _StorageService {
         return pl;
       })
       .then(pl => this.savePl(pl))
-      .then(res => fetch(`http://localhost:8010/proxy/author/${id}.json`, {
+      .then(res => fetch(`${baseUrl}/author/${id}.json`, {
         method: 'PUT',
         body: author.toJSON()
       }))
@@ -107,7 +111,7 @@ class _StorageService {
         return pl;
       })
       .then(pl => this.savePl(pl))
-      .then(res => fetch(`http://localhost:8010/proxy/author/${authorMeta.id}.json`, {
+      .then(res => fetch(`${baseUrl}/author/${authorMeta.id}.json`, {
         method: 'DELETE'
       }))
       .then(res => authorMeta);
