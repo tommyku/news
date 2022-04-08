@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "parcel serve index.html",
+    "webdav": "rclone serve webdav --addr 0.0.0.0:8080 -L --dir-cache-time 0 dist",
+    "proxy": "lcp --proxyUrl http://localhost:8080"
   },
   "devDependencies": {
     "@parcel/config-default": "^2.4.1",
