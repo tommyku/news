@@ -1,6 +1,8 @@
 import { Author } from '../model/author';
-import { Pl } from '../model/pl';
 import { AuthorMeta } from '../model/author_meta';
+import { Post } from '../model/post';
+import { PostMeta } from '../model/post_meta';
+import { Pl } from '../model/pl';
 
 class _StorageService {
   private loadPl(): Promise<Pl> {
@@ -16,6 +18,48 @@ class _StorageService {
     })
       .then(res => pl);
   }
+
+  public readPost(postMeta: PostMeta): Promise<Post> {
+    return fetch(`http://localhost:8010/proxy/post/${postMeta.id}.json`)
+      .then(res => res.json())
+      .then(json => Post.fromObject(json));
+  }
+
+  public loadPosts(): Promise<PostMeta[]> {
+    return this.loadPl()
+      .then(pl => Pl.fromObject(pl).posts);
+  }
+
+  public addPost(post: Post): Promise<Post> {
+    const id: string = (new Date()).getTime().toString();
+    const postMeta = new PostMeta(post.content.substr(0, 48), id);
+    return this.loadPl()
+      .then(pl => { 
+        pl.posts.push(postMeta);
+        return pl;
+      })
+      .then(pl => this.savePl(pl))
+      .then(res => fetch(`http://localhost:8010/proxy/post/${id}.json`, {
+        method: 'PUT',
+        body: post.toJSON()
+      }))
+      .then(res => post);
+  }
+
+  public deletePost(postMeta: PostMeta): Promise<PostMeta> {
+    const id: string = postMeta.id;
+    return this.loadPl()
+      .then(pl => {
+        pl.posts = pl.posts.filter(a => a.id !== postMeta.id);
+        return pl;
+      })
+      .then(pl => this.savePl(pl))
+      .then(res => fetch(`http://localhost:8010/proxy/post/${postMeta.id}.json`, {
+        method: 'DELETE'
+      }))
+      .then(res => postMeta);
+  }
+
 
   public readAuthor(authorMeta: AuthorMeta): Promise<Author> {
     return fetch(`http://localhost:8010/proxy/author/${authorMeta.id}.json`)

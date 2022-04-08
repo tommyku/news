@@ -41,12 +41,17 @@ export class AuthorSection implements OnInit {
     if (this.elm === null) return;
     this.elm.innerHTML = `
       <h3>Authors</h3>
+      <hr />
       <form>
         Name
+        <br />
         <input type="text" name="author_name" />
+        <br />
         URL
+        <br />
         <input type="text" name="author_url" />
-        <input type="submit" value="submit" />
+        <br />
+        <p><input type="submit" value="submit" /></p>
       </form>
       <table>
         <tr>
