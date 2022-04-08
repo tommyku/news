@@ -1,0 +1,14 @@
+---
+pagination:
+  data: posts
+  size: 3000
+---
+
+<table>
+{%- for item in pagination.items %}
+  <tr>
+    <td>{{ item.properties.published[0] }}</td>
+    <td><p>{{ item.properties.content[0] }}</p></td>
+  </tr>
+{% endfor -%}
+</table>

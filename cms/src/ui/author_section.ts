@@ -57,15 +57,15 @@ export class AuthorSection implements OnInit {
         <tr>
           <th>#</th>
           <th>Name</th>
-          <th>Delete</th>
           <th>Read</th>
+          <th>Delete</th>
         </tr>
         ${this.authorMetas.map((a, i) => `
         <tr>
           <td>${i+1}</td>
           <td>${a.name}</td>
-          <td><button class="author_delete" data-id="${a.id}">Delete</button></td>
           <td><button class="author_read" data-id="${a.id}">Read</button></td>
+          <td><button class="author_delete" data-id="${a.id}">Delete</button></td>
         </tr>
         `).join('')}
       </table>
@@ -96,8 +96,10 @@ export class AuthorSection implements OnInit {
   private onDelete(e: Event): boolean {
     // @ts-ignore
     const $btn: HTMLElement | null = e.target;
-    const id = $btn.dataset.id;
-    this.deleteAuthor(this.authorMetas.find(a => a.id === id));
+    if (confirm("Delete?")) {
+      const id = $btn.dataset.id;
+      this.deleteAuthor(this.authorMetas.find(a => a.id === id));
+    }
     return false;
   }
 
