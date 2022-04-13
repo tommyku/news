@@ -26,7 +26,7 @@ async function imageLinkShortcode(src) {
 async function imageThumbShortcode(src) {
   const metadata = await image(src);
   const data = metadata.jpeg[0];
-  return `<img src="${data.url}" width="${data.width}" height="${data.height}" loading="lazy" decoding="async" />`;
+  return `<img class="thumb" src="${data.url}" width="${data.width}" height="${data.height}" loading="lazy" decoding="async" />`;
 }
 
 async function imageThumbLinkShortcode(src) {
