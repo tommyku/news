@@ -215,21 +215,21 @@ pagination:
   <main>
     {%- for item in pagination.items %}
     <article class="h-entry">
-      <p class="p-content">
-        <small>
-          <time class="dt-published">{{ item.properties.published[0].substr(0, 10) }}</time>
-          <a class="u-author" href="{{ item.properties.author[0].properties.url[0] }}">{{ item.properties.author[0].properties.name[0] }}</a>
-        </small>
-        {% if item.properties.photo[0] !== '' %}
-        {{ item.properties.content[0] | nl2br | urlize | safe }}
-        {% endif %}
-      </p>
+      {% if item.properties.photo[0] !== '' %}
+        <p class="p-content">
+          {{ item.properties.content[0] | nl2br | urlize | safe }}
+        </p>
+      {% endif %}
       {% if item.properties.photo[0] %}
         <div class="u-photo" style="display: flex; flex-direction: row; align-items: center; gap: 0.5em;">
           {% image_thumb_link "./src/_data/photo/"+item.properties.photo[0] %}
           {% image_link "./src/_data/photo/"+item.properties.photo[0] %}
         </div>
       {% endif %}
+      <small>
+        <time class="dt-published">{{ item.properties.published[0].substr(0, 10) }}</time>
+        <a class="u-author" href="{{ item.properties.author[0].properties.url[0] }}">{{ item.properties.author[0].properties.name[0] }}</a>
+      </small>
     </article>
     {% endfor -%}
   </main>
