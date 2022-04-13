@@ -29,6 +29,12 @@ async function imageThumbShortcode(src) {
   return `<img src="${data.url}" width="${data.width}" height="${data.height}" loading="lazy" decoding="async" />`;
 }
 
+async function imageThumbLinkShortcode(src) {
+  const metadata = await image(src);
+  const thumb = imageThumbShortcode(src);
+  const data = metadata.jpeg[1];
+  return `<a class="u-photo" href="${data.url}" target="_blank">${thumb}</a>`;
+}
 
 module.exports = function(eleventyConfig) {
   eleventyConfig.addNunjucksAsyncShortcode("image", imageShortcode);
@@ -42,4 +48,8 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addNunjucksAsyncShortcode("image_thumb", imageThumbShortcode);
   eleventyConfig.addLiquidShortcode("image_thumb", imageThumbShortcode);
   eleventyConfig.addJavaScriptFunction("image_thumb", imageThumbShortcode);
+
+  eleventyConfig.addNunjucksAsyncShortcode("image_thumb_link", imageThumbLinkShortcode);
+  eleventyConfig.addLiquidShortcode("image_thumb_link", imageThumbLinkShortcode);
+  eleventyConfig.addJavaScriptFunction("image_thumb_link", imageThumbLinkShortcode);
 };

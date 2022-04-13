@@ -218,7 +218,7 @@ pagination:
       {% endif %}
       {% if item.properties.photo[0] %}
         <div class="u-photo" style="display: flex; flex-direction: row; align-items: center; gap: 0.5em;">
-          {% image_thumb "./src/_data/photo/"+item.properties.photo[0] %}
+          {% image_thumb_link "./src/_data/photo/"+item.properties.photo[0] %}
           {% image_link "./src/_data/photo/"+item.properties.photo[0] %}
         </div>
       {% endif %}
