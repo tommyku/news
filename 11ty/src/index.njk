@@ -208,20 +208,21 @@ pagination:
   <main>
     {%- for item in pagination.items %}
     <div class="h-entry">
-      <p class="p-content">
-        {{ item.properties.content[0] }}
-        <br />
-        {% if item.properties.photo[0] %}
-          <div style="display: flex; flex-direction: row; align-items: center; gap: 0.5em;">
-            {% image_thumb "./src/_data/photo/"+item.properties.photo[0] %}
-            {% image_link "./src/_data/photo/"+item.properties.photo[0] %}
-          </div>
-        {% endif %}
-        <small>
-          <time class="dt-published">{{ item.properties.published[0].substr(0, 10) }}</time>
-          <a class="u-author" href="{{ item.properties.author[0].properties.url[0] }}">{{ item.properties.author[0].properties.name[0] }}</a>
-        </small>
-      </p>
+      {% if item.properties.photo[0] !== '' %}
+        <p class="p-content">
+          {{ item.properties.content[0] | nl2br | urlize }}
+        </p>
+      {% endif %}
+      {% if item.properties.photo[0] %}
+        <div class="u-photo" style="display: flex; flex-direction: row; align-items: center; gap: 0.5em;">
+          {% image_thumb "./src/_data/photo/"+item.properties.photo[0] %}
+          {% image_link "./src/_data/photo/"+item.properties.photo[0] %}
+        </div>
+      {% endif %}
+      <small>
+        <time class="dt-published">{{ item.properties.published[0].substr(0, 10) }}</time>
+        <a class="u-author" href="{{ item.properties.author[0].properties.url[0] }}">{{ item.properties.author[0].properties.name[0] }}</a>
+      </small>
     </div>
     {% endfor -%}
   </main>
