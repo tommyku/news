@@ -213,7 +213,7 @@ pagination:
     <article class="h-entry">
       {% if item.properties.photo[0] !== '' %}
         <p class="p-content">
-          {{ item.properties.content[0] | nl2br | urlize | safe }}
+          {{ item.properties.content[0] | emoji | nl2br | urlize | safe }}
         </p>
       {% endif %}
       {% if item.properties.photo[0] %}

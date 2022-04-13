@@ -37,6 +37,8 @@ async function imageThumbLinkShortcode(src) {
 }
 
 module.exports = function(eleventyConfig) {
+  eleventyConfig.addPlugin(require("eleventy-plugin-emoji"));
+
   eleventyConfig.addNunjucksAsyncShortcode("image", imageShortcode);
   eleventyConfig.addLiquidShortcode("image", imageShortcode);
   eleventyConfig.addJavaScriptFunction("image", imageShortcode);
