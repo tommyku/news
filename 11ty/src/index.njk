@@ -210,7 +210,7 @@ pagination:
     <div class="h-entry">
       {% if item.properties.photo[0] !== '' %}
         <p class="p-content">
-          {{ item.properties.content[0] | nl2br | urlize }}
+          {{ item.properties.content[0] | nl2br | urlize | safe }}
         </p>
       {% endif %}
       {% if item.properties.photo[0] %}
