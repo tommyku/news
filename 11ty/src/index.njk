@@ -199,6 +199,9 @@ pagination:
         background: #efefef;
         margin-inline-end: 0;
     }
+    article {
+        margin-bottom: 1em;
+    }
 </style>
 </head>
 <body>
@@ -207,7 +210,7 @@ pagination:
   </header>
   <main>
     {%- for item in pagination.items %}
-    <div class="h-entry">
+    <article class="h-entry">
       {% if item.properties.photo[0] !== '' %}
         <p class="p-content">
           {{ item.properties.content[0] | nl2br | urlize | safe }}
@@ -223,7 +226,7 @@ pagination:
         <time class="dt-published">{{ item.properties.published[0].substr(0, 10) }}</time>
         <a class="u-author" href="{{ item.properties.author[0].properties.url[0] }}">{{ item.properties.author[0].properties.name[0] }}</a>
       </small>
-    </div>
+    </article>
     {% endfor -%}
   </main>
   <footer>
