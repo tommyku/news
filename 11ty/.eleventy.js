@@ -31,7 +31,7 @@ async function imageThumbShortcode(src) {
 
 async function imageThumbLinkShortcode(src) {
   const metadata = await image(src);
-  const thumb = imageThumbShortcode(src);
+  const thumb = await imageThumbShortcode(src);
   const data = metadata.jpeg[1];
   return `<a class="u-photo" href="${data.url}" target="_blank">${thumb}</a>`;
 }
